@@ -1,17 +1,18 @@
 import lxml.html, lxml.etree
 import shelve
 import hashlib
+import notification
 from urllib.request import urlopen
 
-storageFileName = 'storage'
-url = 'file:///Users/wangshunxing/Documents/ETH/ShitHappened/index.html'
-path = '//table'
 
+storageFileName = 'storage'
+siteName = 'test'
+url = 'file:///Users/wangshunxing/Documents/ETH/ShitHappened/index.html'
+xpath = '//table'
+user = 'sssssssss'
 
 # Checking 
 print('Checking: {}'.format(url));
-
-
 
 # Open hash database
 storage = shelve.open(storageFileName) 
@@ -22,7 +23,7 @@ htmlContent = response.read()
 
 # Parse html and locate element using XPath
 root = lxml.html.fromstring(htmlContent)
-content = root.xpath(path)
+content = root.xpath(xpath)
 
 # Stringify the content tree
 strContentTree = lxml.etree.tostring(content[0]);
@@ -36,18 +37,22 @@ hashURL = hashlib.md5(url.encode('utf-8')).hexdigest()
 # Check if the hash changed comparing to the last test
 try: 
 	oldHashContent = storage[hashURL]
-	print('Last hash:' + oldHashContent)
+	print('Last hash: \t' + oldHashContent + '\nCurrent hash: \t' + hashContent)
 	if oldHashContent != hashContent:
 		print('Content changed, update DB')
 		storage[hashURL] = hashContent
+		# notification.sendNotification();
 	else:
 		print('No change in content')
-	# Send notification
 except:
 	print('URL not found in DB, update DB')
 	storage[hashURL] = hashContent
 
 storage.close()
+
+
+notification.sendNotification(siteName);
+
 
 
 
