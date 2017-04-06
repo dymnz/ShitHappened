@@ -1,0 +1,7 @@
+{
+	"email_sender" : {
+		"username": "user@example.com",
+		"password": "example_pwd"
+	},
+    "storage_file" : "storage"
+}

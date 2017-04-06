@@ -1,0 +1,10 @@
+{
+    "recipient": "recipient@example.com",
+    "subject": "Shit happened!",
+    "sites": [
+        {
+            "url": "http://example.com",
+            "xpath": "//table"
+        }
+    ]
+}
