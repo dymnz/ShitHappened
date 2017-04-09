@@ -5,8 +5,14 @@ from email.mime.text import MIMEText
 class Notification: 
 	_email_sender = None
 
-	def email_config(self, sender, password, stmp_url, stmp_port):
+	def _email_config(self, sender, password, stmp_url, stmp_port):
 		self._email_sender = EmailSender(sender, password, stmp_url, stmp_port)
+
+	def email_config(self, email_sender_json):
+		self._email_sender = EmailSender(email_sender_json['email'],
+										email_sender_json['password'],
+										email_sender_json['stmp']['url'],
+										email_sender_json['stmp']['port'])
 
 	def send_email(self, sender_name, recipient, subject, changed_sites):
 		message = self._construct_message(changed_sites)

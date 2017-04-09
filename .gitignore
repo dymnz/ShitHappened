@@ -49,3 +49,7 @@ Temporary Items
 # Custom
 profile1.json
 setting.json
+storage.bak
+storage.dat
+storage.dir
+__pycache__/

@@ -1,7 +1,11 @@
 {
 	"email_sender" : {
-		"username": "user@example.com",
-		"password": "example_pwd"
+		"email": "user@example.com",
+		"password": "example_pwd",
+		"stmp": {
+			"url": "smtp.gmail.com",
+			"port": "465"
+		}
 	},
-    "storage_file" : "storage"
+    "storage_name" : "storage"
 }
