@@ -2,46 +2,57 @@ import shelve
 import json
 import change_check
 from notification import Notification
-from profile import Profile
+from profile import Profile, Site
 
 class Shit_Happened:
 	storage = None
 	notification = None
 	profile_list = []
+	site_dict = dict()
 
 	def __init__(self, setting_name):
 		self._read_setting(setting_name)
 
 	# Read setting from file
 	def _read_setting(self, setting_name):
-		try:
-			with open(setting_name) as data_file:    
-			    setting_json = json.load(data_file)
+		with open(setting_name) as data_file:    
+		    setting_json = json.load(data_file)
 
-			# Notificaiton 
-			self.notification = Notification()
-			self.notification.email_config(setting_json['email_sender'])
+		## Notificaiton ##
+		self.notification = Notification()
+		self.notification.email_config(setting_json['email_sender'])
 
-			# Storage
-			storage_name = setting_json['storage_name']
-			self.storage = shelve.open(storage_name)
+		## Storage ##
+		storage_name = setting_json['storage_name']
+		self.storage = shelve.open(storage_name)
 
-			# Profile
-			profile_name_list = setting_json['profile_name']
-			profile_dir = setting_json['profile_dir']
+		## Profile ##
+		profile_name_list = setting_json['profile_name']
+		profile_dir = setting_json['profile_dir']
 
-			print('Found', len(profile_name_list), 'profiles:', ', '.join(profile_name_list))
+		print('==Found', len(profile_name_list), 'profiles:', profile_name_list)
 
+		# Read profiles and add them to profile list
+		for profile_name in profile_name_list:
+			profile = self._read_profile(profile_dir + profile_name);
+		if profile is not None:
+			self.profile_list.append(profile)
 
-			# Read profiles and add them to profile list
-			for profile_name in profile_name_list:
-				profile = self._read_profile(profile_dir + profile_name);
-			if profile is not None:
-				self.profile_list.append(profile)
+		## Site ##
+		for profile in self.profile_list:
+			for site in profile.site_list:
 
-		except Exception as e:
-			print(e)
-			exit()
+				# If the site is not in dict, create it
+				if not site in self.site_dict:
+					self.site_dict[site] = Site(site)
+
+				# Append the recipient to Site
+				self.site_dict[site].add_recipient(profile.email)
+
+		print('==Found', len(self.site_dict.keys()), 'sites')
+
+		for site_name, site in self.site_dict.items():
+			print("{}: {}".format(site_name, site.recipient_email_list))
 
 	# Read profile from file and return a Profile object
 	def _read_profile(self, profile_name):
@@ -56,14 +67,18 @@ class Shit_Happened:
 			print(e)
 			return None
 
-	def start(self):
+	def check_site(self):
+		# Collect every site that needs to be checked
+
+
+
 		pass
 
-profile_list = []
 
 setting_name = 'setting.json'
-
 sh = Shit_Happened(setting_name)
+
+sh.check_site()
 
 exit()
 '''
