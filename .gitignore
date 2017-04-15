@@ -47,8 +47,8 @@ Temporary Items
 .apdisk
 
 # Custom
-profile1.json
-setting.json
+*.json
+*.json
 storage.bak
 storage.dat
 storage.dir
