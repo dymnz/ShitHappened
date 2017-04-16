@@ -1,6 +1,5 @@
 class Profile: 
 	site_list = []
-	url_list = []
 	xpath_list = []
 
 	name = None
@@ -10,8 +9,7 @@ class Profile:
 
 	def __init__(self, profile_json):
 		for node in profile_json['sites']:
-			self.site_list.append(node['name'])
-			self.url_list.append(node['url'])
+			self.site_list.append( (node['name'],node['url']) )
 			self.xpath_list.append(node['xpath'])
 
 		self.email = profile_json['email_recipient']['email']
@@ -24,14 +22,16 @@ class Profile:
 
 class Site:
 	name = None
-	changed = False
+	url = None
+	content_changed = False
 	recipient_email_list = []
 
-	def __init__(self, name):
+	def __init__(self, name, url):
 		self.name = name
+		self.url = url
 
 	def add_recipient(self, recipient_email):
 		self.recipient_email_list.append(recipient_email)
 
 	def set_changed(self):
-		self.changed = True
+		self.content_changed = True

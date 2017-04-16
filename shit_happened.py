@@ -41,18 +41,16 @@ class Shit_Happened:
 		## Site ##
 		for profile in self.profile_list:
 			for site in profile.site_list:
-
-				# If the site is not in dict, create it
-				if not site in self.site_dict:
-					self.site_dict[site] = Site(site)
-
+				# If the site url is not in dict, create it
+				if not site[1] in self.site_dict:
+					self.site_dict[site[1]] = Site(site[0], site[1]) # (name, url)
 				# Append the recipient to Site
-				self.site_dict[site].add_recipient(profile.email)
+				self.site_dict[site[1]].add_recipient(profile.email)
 
 		print('==Found', len(self.site_dict.keys()), 'sites')
 
-		for site_name, site in self.site_dict.items():
-			print("{}: {}".format(site_name, site.recipient_email_list))
+		for site_url, site in self.site_dict.items():
+			print("{}: {}\nrecipient:{}".format(site.name, site.url,site.recipient_email_list))
 
 	# Read profile from file and return a Profile object
 	def _read_profile(self, profile_name):
