@@ -1,6 +1,7 @@
+from collections import namedtuple
+
 class Profile: 
-	site_list = []
-	xpath_list = []
+	site_list = []	# (name, url, xpath)
 
 	name = None
 	email = None
@@ -8,30 +9,34 @@ class Profile:
 	email_subject = None
 
 	def __init__(self, profile_json):
+		Profile_Site_Info = namedtuple('Profile_Site_Info', 'site_name url xpath')
+
 		for node in profile_json['sites']:
-			self.site_list.append( (node['name'],node['url']) )
-			self.xpath_list.append(node['xpath'])
+			self.site_list.append( Profile_Site_Info(node['name'], node['url'], node['xpath'])  )
 
 		self.email = profile_json['email_recipient']['email']
 		self.email_sender_name = profile_json['email_recipient']['sender_name']
 		self.subject = profile_json['email_recipient']['subject']
 		self.name = profile_json['name']
 
-		print('Parsed profile: {}'.format(self.name))
+		print('Parsed profile: {}:{}'.format(self.name, self.email))
 
 
 class Site:
-	name = None
 	url = None
 	content_changed = False
-	recipient_email_list = []
+	recipient_list = []	# (site_name, recipient_email, xpath)
 
-	def __init__(self, name, url):
-		self.name = name
+	def __init__(self, url):
 		self.url = url
 
-	def add_recipient(self, recipient_email):
-		self.recipient_email_list.append(recipient_email)
+	def add_recipient(self, site_name, recipient_email, xpath):
+		Recipient_Site_Info = namedtuple('Recipient_Site_Info', 'site_name recipient_email xpath')
+
+		self.recipient_list.append(Recipient_Site_Info(
+			site_name, 
+			recipient_email, 
+			xpath))
 
 	def set_changed(self):
 		self.content_changed = True

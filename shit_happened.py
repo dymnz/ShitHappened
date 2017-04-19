@@ -3,11 +3,12 @@ import json
 import change_check
 from notification import Notification
 from profile import Profile, Site
+from change_check import Change_checker
 
 class Shit_Happened:
 	storage = None
 	notification = None
-	profile_list = []
+	profile_dict = dict()
 	site_dict = dict()
 
 	def __init__(self, setting_name):
@@ -36,21 +37,26 @@ class Shit_Happened:
 		for profile_name in profile_name_list:
 			profile = self._read_profile(profile_dir + profile_name);
 		if profile is not None:
-			self.profile_list.append(profile)
+			self.profile_dict[profile.email] = profile
 
 		## Site ##
-		for profile in self.profile_list:
-			for site in profile.site_list:
+		for profile_email, profile in self.profile_dict.items():
+			for profile_site_info in profile.site_list:	# (site_name, url, xpath)
+
 				# If the site url is not in dict, create it
-				if not site[1] in self.site_dict:
-					self.site_dict[site[1]] = Site(site[0], site[1]) # (name, url)
-				# Append the recipient to Site
-				self.site_dict[site[1]].add_recipient(profile.email)
+				if not profile_site_info.url in self.site_dict:
+					self.site_dict[profile_site_info.url] = Site(profile_site_info.url)
+
+				# Append the recipient to Site (site_name, email, xpath)
+				self.site_dict[profile_site_info.url].add_recipient(
+					profile_site_info.site_name, 
+					profile.email, 
+					profile_site_info.xpath) 
 
 		print('==Found', len(self.site_dict.keys()), 'sites')
 
 		for site_url, site in self.site_dict.items():
-			print("{}: {}\nrecipient:{}".format(site.name, site.url,site.recipient_email_list))
+			print("-{}-\nrecipients:{}".format(site.url, site.recipient_list))
 
 	# Read profile from file and return a Profile object
 	def _read_profile(self, profile_name):
@@ -66,9 +72,16 @@ class Shit_Happened:
 			return None
 
 	def check_site(self):
-		# Collect every site that needs to be checked
+
+		# For each site, download html content and check each xpath
+		for site_url, site in self.site_dict.items():
+			#print(list(site.recipient_list))
+			pass
 
 
+
+		# Notification driven by changes in site.
+		# Site change -> append recipient's notification list
 
 		pass
 
