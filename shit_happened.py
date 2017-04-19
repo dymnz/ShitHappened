@@ -6,8 +6,9 @@ from profile import Profile, Site
 from change_check import Change_checker
 
 class Shit_Happened:
-	storage = None
+	storage_name = None
 	notification = None
+	change_checker = None
 	profile_dict = dict()
 	site_dict = dict()
 
@@ -24,8 +25,7 @@ class Shit_Happened:
 		self.notification.email_config(setting_json['email_sender'])
 
 		## Storage ##
-		storage_name = setting_json['storage_name']
-		self.storage = shelve.open(storage_name)
+		storage_name = setting_json['storage_name']		
 
 		## Profile ##
 		profile_name_list = setting_json['profile_name']
@@ -72,6 +72,8 @@ class Shit_Happened:
 			return None
 
 	def check_site(self):
+		self.storage = shelve.open(storage_name)
+
 
 		# For each site, download html content and check each xpath
 		for site_url, site in self.site_dict.items():
@@ -83,6 +85,8 @@ class Shit_Happened:
 		# Notification driven by changes in site.
 		# Site change -> append recipient's notification list
 
+
+		self.storage.close()
 		pass
 
 

@@ -6,17 +6,12 @@ class Change_checker:
 	url = None
 	response = None
 	html_content = None
-	storage = None
 
-
-	def __init__(self, storage):
-		self.storage = storage
-
-	def check_xpath(self, xpath_list):
+	def check_xpath(self, storage, xpath_list):
 		changed_list = [False] * len(xpath_list)
 
 		for index, xpath in enumerate(xpath_list):
-			changed_list[index] = self._check_url_change(xpath)
+			changed_list[index] = self._check_url_change(storage, xpath)
 
 		return changed_list
 
@@ -31,7 +26,7 @@ class Change_checker:
 			print('Error connecting to {}'.format(self.url))
 		return False
 
-	def _check_url_change(self, xpath):
+	def _check_url_change(self, storage, xpath):
 		print('--Checking: {}'.format(self.url))
 
 		# Parse html and locate element using XPath
