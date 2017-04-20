@@ -32,11 +32,17 @@ class Site:
 
 	def add_recipient(self, site_name, recipient_email, xpath):
 		Recipient_Site_Info = namedtuple('Recipient_Site_Info', 'site_name recipient_email xpath')
-
+		'''
 		self.recipient_list.append(Recipient_Site_Info(
 			site_name, 
 			recipient_email, 
-			xpath))
+			xpath))'''
+
+		self.recipient_list.append(xpath)
+
+		print('{}:{} add_recipient for {} '.format(self, self.url, xpath))
+		print(self.recipient_list)
+
 
 	def set_changed(self):
 		self.content_changed = True

@@ -1,4 +1,5 @@
 {
+    "name": "test_user",
     "email_recipient": {
     	"email": "recipient@gmail.com",
     	"subject": "Shit happened!",
