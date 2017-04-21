@@ -1,24 +1,34 @@
 import shelve
 import json
 import change_check
+import logging
+
 from notification import Notification
 from profile import Profile, Site
 from change_check import Change_checker
+from util import *
+
+setup_logger()
 
 class Shit_Happened:
-	storage_name = None
-	notification = None
-	change_checker = None
-	profile_dict = dict()
-	site_dict = dict()
 
-	def __init__(self, setting_name):
+	def __init__(self, setting_name):		
+		self.storage_name = None
+		self.notification = None
+		self.change_checker = None
+		self.profile_dict = dict()
+		self.site_dict = dict()
+
+		logging.info('Reading settings...')
 		self._read_setting(setting_name)
 
 	# Read setting from file
 	def _read_setting(self, setting_name):
 		with open(setting_name) as data_file:    
 		    setting_json = json.load(data_file)
+
+		## Logger ##		
+		logging.getLogger('').setLevel(logging.DEBUG)  # TODO: Read debug level from setting		
 
 		## Notificaiton ##
 		self.notification = Notification()
@@ -31,7 +41,7 @@ class Shit_Happened:
 		profile_name_list = setting_json['profile_name']
 		profile_dir = setting_json['profile_dir']
 
-		print('==Found', len(profile_name_list), 'profiles:', profile_name_list)
+		logging.info('==Found {} profiles==\n{}'.format(len(profile_name_list), profile_name_list))
 
 		# Read profiles and add them to profile list
 		for profile_name in profile_name_list:
@@ -53,10 +63,11 @@ class Shit_Happened:
 					profile.email, 
 					profile_site_info.xpath)
 
-		print('==Found', len(self.site_dict.keys()), 'sites')
+		logging.info('==Found {} sites=='.format(len(self.site_dict.keys())))
 
 		for site_url, site in self.site_dict.items():
-			print("-{}-\nrecipients:{}".format(site.url, site.recipient_list))
+			logging.info(site_url)
+			logging.debug("recipients:{}".format(site.recipient_list))
 
 	# Read profile from file and return a Profile object
 	def _read_profile(self, profile_name):

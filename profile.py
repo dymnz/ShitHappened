@@ -1,4 +1,7 @@
 from collections import namedtuple
+import logging
+
+logger = logging.getLogger('logger')
 
 class Profile: 
 	
@@ -15,7 +18,7 @@ class Profile:
 		self.subject = profile_json['email_recipient']['subject']
 		self.name = profile_json['name']
 
-		print('Parsed profile: {}:{}'.format(self.name, self.email))
+		logger.debug('Parsed profile: {}:{}'.format(self.name, self.email))
 
 
 class Site:
@@ -23,7 +26,7 @@ class Site:
 	def __init__(self, url):
 		self.url = url
 		self.recipient_list = list()
-		self.content_changed = False
+		self.changed_list = list()
 
 	def add_recipient(self, site_name, recipient_email, xpath):
 		Recipient_Site_Info = namedtuple('Recipient_Site_Info', 'site_name recipient_email xpath')
@@ -32,6 +35,7 @@ class Site:
 			site_name, 
 			recipient_email, 
 			xpath))
+		self.changed_list.append(False)
 
 	def set_changed(self):
 		self.content_changed = True

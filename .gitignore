@@ -54,3 +54,4 @@ storage.dat
 storage.dir
 __pycache__/
 *.pyc
+log.txt
