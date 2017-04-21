@@ -13,7 +13,7 @@ def setup_logger():
 	console = logging.StreamHandler()
 	console.setLevel(logging.INFO)
 	# set a format which is simpler for console use
-	formatter = logging.Formatter('%(asctime)s - %(message)s')
+	formatter = logging.Formatter('%(asctime)s - %(message)s', "%H:%M:%S")
 	console.setFormatter(formatter)
 	# add the handler to the root logger
 	logging.getLogger('').addHandler(console)

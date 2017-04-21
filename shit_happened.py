@@ -41,7 +41,9 @@ class Shit_Happened:
 		profile_name_list = setting_json['profile_name']
 		profile_dir = setting_json['profile_dir']
 
-		logging.info('==Found {} profiles==\n{}'.format(len(profile_name_list), profile_name_list))
+		logging.info('==Found {} profiles=='.format(len(profile_name_list)))
+		logging.info(profile_name_list)
+
 
 		# Read profiles and add them to profile list
 		for profile_name in profile_name_list:
