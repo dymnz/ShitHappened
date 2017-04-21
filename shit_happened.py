@@ -36,32 +36,22 @@ class Shit_Happened:
 		# Read profiles and add them to profile list
 		for profile_name in profile_name_list:
 			profile = self._read_profile(profile_dir + profile_name);
-		if profile is not None:
-			self.profile_dict[profile.email] = profile
+			if profile is not None:
+				self.profile_dict[profile.email] = profile
 
 		## Site ##
 		for profile_email, profile in self.profile_dict.items():
 			for profile_site_info in profile.site_list:	# (site_name, url, xpath)
 
-				print(profile_site_info.url)
-
-
-
 				# If the site url is not in dict, create it
-				if not profile_site_info.url in self.site_dict:
-					newSite = Site(profile_site_info.url)
-					self.site_dict[profile_site_info.url] = newSite 					
+				if not profile_site_info.url in self.site_dict:				
+					self.site_dict[profile_site_info.url] = Site(profile_site_info.url) 			
 
 				# Append the recipient to Site (site_name, email, xpath)
-
-				
 				self.site_dict[profile_site_info.url].add_recipient(
 					profile_site_info.site_name, 
 					profile.email, 
 					profile_site_info.xpath)
-
-
-				print('--------{}'.format(self.site_dict[profile_site_info.url]))
 
 		print('==Found', len(self.site_dict.keys()), 'sites')
 
