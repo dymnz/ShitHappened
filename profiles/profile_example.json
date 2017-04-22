@@ -1,0 +1,15 @@
+{
+    "name": "test_user",
+    "email_recipient": {
+    	"email": "recipient@gmail.com",
+    	"subject": "Shit happened!",
+    	"sender_name": "ShitHappenedBot"
+	},
+    "sites": [
+        {
+        	"name": "test",
+            "url": "http://example.com",
+            "xpath": "//body"
+        }
+    ]
+}
