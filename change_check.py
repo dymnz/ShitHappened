@@ -3,11 +3,6 @@ import lxml.html, lxml.etree
 import hashlib
 from util import *
 
-class Site_State:
-    No_Change = 1
-    Changed = 2
-    No_Record = 3
-
 class Change_checker: 
 	url = None
 	response = None
@@ -21,8 +16,9 @@ class Change_checker:
 
 		# Update the storage for all updated sites
 		for index, site_state in enumerate(changed_list):
-			if site_state == Site_State.No_Change or site_state == Site_State.No_Record:
-				self._update_storage(storage, xpath)
+			if site_state == Site_State.Changed or site_state == Site_State.No_Record:
+				logging.debug('update {}:{}:{}'.format(self.url, xpath_list[index], site_state))
+				self._update_storage(storage, xpath_list[index])
 
 		return changed_list
 
@@ -52,9 +48,8 @@ class Change_checker:
 		# Hash of content tree
 		hash_content = hashlib.md5(str_content_tree).hexdigest()
 
-		# Hash of database entry = cat( md5(url), md5(xpath) )
-		hash_key = (hashlib.md5(self.url.encode('utf-8')).hexdigest() 
-				+ hashlib.md5(xpath.encode('utf-8')).hexdigest())
+		# Hash of database entry = md5(cat( url, xpath ))
+		hash_key = hashlib.md5(self.url.encode('utf-8') + xpath.encode('utf-8')).hexdigest()
 
 		# Check if the hash changed comparing to the last test
 		try: 
@@ -83,9 +78,8 @@ class Change_checker:
 		# Hash of content tree
 		hash_content = hashlib.md5(str_content_tree).hexdigest()
 
-		# Hash of database entry = cat( md5(url), md5(xpath) )
-		hash_key = (hashlib.md5(self.url.encode('utf-8')).hexdigest() 
-				+ hashlib.md5(xpath.encode('utf-8')).hexdigest())
+		# Hash of database entry = md5(cat( url, xpath ))
+		hash_key = hashlib.md5(self.url.encode('utf-8')+xpath.encode('utf-8')).hexdigest() 
 
 		# Check if the hash changed comparing to the last test
 		storage[hash_key] = hash_content

@@ -1,3 +1,4 @@
+from util import *
 from email_sender import EmailSender
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
@@ -14,6 +15,9 @@ class Notification:
 										email_sender_json['stmp']['port'])
 
 	def send_email(self, sender_name, recipient, subject, changed_sites):
+		logging.info('Mailing: {}:{}'.format(sender_name, recipient))
+		logging.debug(changed_sites)
+
 		message = self._construct_message(changed_sites)
 
 		message['From'] = sender_name
@@ -21,7 +25,6 @@ class Notification:
 		message['Subject'] = subject
 
 		self._email_sender.send_email(recipient, message)
-
 
 	# https://stackoverflow.com/questions/882712/sending-html-email-using-python
 	def _construct_message(self, changed_sites):

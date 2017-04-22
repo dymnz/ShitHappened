@@ -1,4 +1,5 @@
 import smtplib 
+from util import *
 
 class EmailSender:
 	_user = 'user'
@@ -22,5 +23,5 @@ class EmailSender:
 		server_ssl.sendmail(self._user, recipient, message.as_string())
 		#server_ssl.quit()
 		server_ssl.close()
-		print("Email sent to {}".format(recipient))
+		logging.info("Email sent to {}".format(recipient))
 
