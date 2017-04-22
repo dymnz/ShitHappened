@@ -1,0 +1,25 @@
+{
+    "name": "dymnz2",
+    "email_recipient": {
+    	"email": "2vicodin1123@gmail.com",
+    	"subject": "Shit happened!",
+    	"sender_name": "ShitHappenedBot"
+	},
+    "sites": [
+        {
+        	"name": "test",
+            "url": "file:///E:/Ethereun/ShitHappened/index.html",
+            "xpath": "//table[2]"
+        },
+        {
+        	"name": "test12",
+            "url": "file:///E:/Ethereun/ShitHappened/index12.html",
+            "xpath": "//table[2]"
+        },
+        {
+        	"name": "test22",
+            "url": "file:///E:/Ethereun/ShitHappened/index22.html",
+            "xpath": "//table[3]"
+        }
+    ]
+}
