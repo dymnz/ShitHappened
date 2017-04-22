@@ -12,10 +12,11 @@ setup_logger()
 
 class Shit_Happened:
 
-	def __init__(self, setting_name):		
+	def __init__(self, setting_name):	
+		logging.info('Shit_Happened initializing...')	
 		self.storage_name = None
-		self.notification = None
-		self.change_checker = None
+		self.notification = Notification()
+		self.change_checker = Change_checker()
 		self.profile_dict = dict()
 		self.site_dict = dict()
 
@@ -30,7 +31,7 @@ class Shit_Happened:
 		## Logger ##		
 		logging.getLogger('').setLevel(logging.DEBUG)  # TODO: Read debug level from setting		
 
-		## Notificaiton ##
+		## Notification ##
 		self.notification = Notification()
 		self.notification.email_config(setting_json['email_sender'])
 
@@ -85,31 +86,46 @@ class Shit_Happened:
 			return None
 
 	def check_site(self):
-		self.storage = shelve.open(storage_name)
+		logging.info('Checking sites...')
 
+		storage = shelve.open(self.storage_name)
 
 		# For each site, download html content and check each xpath
 		for site_url, site in self.site_dict.items():
-			#print(list(site.recipient_list))
-			pass
+			logging.info('Check: {}'.format(site_url))
+			logging.debug(site.recipient_list)
+			
+			# If the site can't be connected, move on to the next
+			if self.change_checker.open_site(site_url) == False:
+				continue
 
+			# Construct a list of xpath
+			xpath_list = [None] * len(site.recipient_list)
+			for index, info in enumerate(site.recipient_list):
+				xpath_list[index] = info.xpath
+
+			logging.debug('xpath: {}'.format(xpath_list))
+
+
+			changed_list = self.change_checker.check_xpath(storage, xpath_list)
+			logging.debug('changed: {}'.format(changed_list))
 
 
 		# Notification driven by changes in site.
 		# Site change -> append recipient's notification list
 
 
-		self.storage.close()
+		storage.close()
 		pass
 
 
 setting_name = 'setting.json'
 sh = Shit_Happened(setting_name)
 
-exit()
+
 
 sh.check_site()
-
+exit()
 
 '''
 

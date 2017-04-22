@@ -3,7 +3,6 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
 class Notification: 
-	_email_sender = None
 
 	def _email_config(self, sender, password, stmp_url, stmp_port):
 		self._email_sender = EmailSender(sender, password, stmp_url, stmp_port)
