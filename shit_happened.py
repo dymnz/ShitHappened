@@ -36,12 +36,12 @@ class Shit_Happened:
 		self.notification.email_config(setting_json['email_sender'])
 
 		## Storage ##
-		self.storage_name = (setting_json['storage_dir'] 
+		self.storage_name = (setting_json['storage_dir'] + '/'
 						+ setting_json['storage_name'])	
 
 		## Profile ##
 		profile_name_list = setting_json['profile_name']
-		profile_dir = setting_json['profile_dir']
+		profile_dir = setting_json['profile_dir'] + '/'
 
 		logging.info('==Found {} profiles=='.format(len(profile_name_list)))
 		logging.info(profile_name_list)
