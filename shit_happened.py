@@ -8,11 +8,10 @@ from profile import Profile, Site
 from change_check import Change_checker
 from util import *
 
-setup_logger()
-
 class Shit_Happened:
 
 	def __init__(self, setting_name):	
+		setup_logger()
 		logging.info('Shit_Happened initializing...')	
 		self.storage_name = None
 		self.notification = Notification()
@@ -130,6 +129,9 @@ class Shit_Happened:
 					logging.debug(recipient_info[0].url)
 					notification_site_list.append( [recipient_info[0].site_name, recipient_info[0].url])
 
+					# Reset the site status
+					recipient_info[1] = False
+
 			# Skip if there's nothing to notify
 			if len(notification_site_list) == 0:
 				continue;
@@ -140,12 +142,4 @@ class Shit_Happened:
 				profile.subject,
 				notification_site_list )
 
-setting_name = 'setting.json'
 
-sh = Shit_Happened(setting_name)
-
-sh.check_site()
-
-sh.notify_recipients()
-
-exit()
