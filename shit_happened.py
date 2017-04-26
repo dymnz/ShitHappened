@@ -36,7 +36,8 @@ class Shit_Happened:
 		self.notification.email_config(setting_json['email_sender'])
 
 		## Storage ##
-		self.storage_name = setting_json['storage_name']		
+		self.storage_name = (setting_json['storage_dir'] 
+						+ setting_json['storage_name'])	
 
 		## Profile ##
 		profile_name_list = setting_json['profile_name']
