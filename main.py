@@ -17,6 +17,6 @@ scheduler = sched.scheduler(time.time, time.sleep)
 setting_name = 'setting.json'
 sh = Shit_Happened(setting_name)
 
-# TODO, change this to given time of a day
+# TODO, change this to given time of a day (advance py scheduler)
 periodic(scheduler, 86400, procedure)
 scheduler.run()

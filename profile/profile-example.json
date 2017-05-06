@@ -1,0 +1,25 @@
+{
+    "name": "dymnz",
+    "email_recipient": {
+    	"email": "testuser@gmail.com",
+    	"subject": "Shit happened!",
+    	"sender_name": "ShitHappenedBot"
+	},
+    "sites": [
+        {
+        	"name": "google",
+            "url": "http://google.com",
+            "xpath": "//body"
+        },
+        {
+        	"name": "apple",
+            "url": "http://apple.com",
+            "xpath": "//table[1]"
+        },
+        {
+        	"name": "banana",
+            "url": "http://banana.com",
+            "xpath": "//table[2]"
+        }
+    ]
+}
