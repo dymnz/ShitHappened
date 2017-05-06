@@ -18,4 +18,11 @@ Periodically checks a website for any content change (or content change under a 
 
 ### Note
 * The program is tested using python3
-* The scheduling right now is stupid
+
+
+### TODO
+* The scheduling right now is stupid, change it to date.time based
+* Different profiles should be able to define their own schedule
+* Mailing is reaaaaaaaaally slow for some reason
+
+
