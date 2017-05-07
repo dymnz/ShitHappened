@@ -1,6 +1,6 @@
 ## ShitHappened
 
-### What this does
+### What it does
 Periodically checks a website for any content change (or content change under a xpath), and notifiy the user.
 
 ### How it works
@@ -24,5 +24,6 @@ Periodically checks a website for any content change (or content change under a 
 * The scheduling right now is stupid, change it to date.time based
 * Different profiles should be able to define their own schedule
 * Mailing is reaaaaaaaaally slow for some reason
-
+* Logging options in setting file
+* Json -> TOML
 
