@@ -17,7 +17,7 @@ Periodically checks a website for any content change (or content change under a 
 * profile.py: Class definition for a 'Profile' and 'Site'
 
 ### Note
-* The program is tested using python3
+* The program is developed using python3.6
 
 
 ### TODO
